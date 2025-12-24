@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+/* --- カスタム変数 --- */
+:root {
+  --bg: #fbfdff;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --text: #0f172a;
+  --primary: #007bff;
+  --primary-dark: #0056b3;
+  --border: #e6eef8;
+  --accent: #26c2dd;
+  /* Table colors (readable in light/dark) */
+  --table-head-bg: rgba(6,78,121,0.06);
+  --table-accent-bg: rgba(67,149,187,0.06);
+  --table-accent-bg-strong: rgba(67,149,187,0.12);
+  --table-head-text: var(--text);
+  --success: #16a34a;
+  --danger: #dc2626;
+  --radius: 8px;
+  --container-width: 1024px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1220;
+    --card: #071029;
+    --muted: #9ca3af;
+    --text: #e6eef8;
+    --primary: #3aa0ff;
+    --primary-dark: #298be0;
+    --border: #0f172a;
+    --accent: #26c2dd;
+    --table-head-bg: rgba(38,194,221,0.10);
+    --table-accent-bg: rgba(67,149,187,0.10);
+    --table-accent-bg-strong: rgba(67,149,187,0.18);
+  }
+}
+
+/* --- ベーシック --- */
+* { box-sizing: border-box; }
+html,body,#__next { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.4;
+  padding: 24px 0;
+}
+
+/* --- レイアウトユーティリティ --- */
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: 0 1px 2px rgba(16,24,40,0.03);
+}
+
+.spaced { margin-top: 16px; margin-bottom: 16px; }
+
+/* --- ボタン --- */
+.btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn:active { background: var(--primary-dark); }
+.btn.secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+/* --- フォーム要素 --- */
+input[type="text"], input[type="number"], input[type="date"], textarea, select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: inherit;
+}
+
+label { font-size: 0.95rem; color: var(--muted); }
+
+/* --- テーブル --- */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: transparent;
+}
+.table th, .table td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+}
+.table thead th {
+  background: var(--table-head-bg);
+  color: var(--table-head-text);
+  font-weight: 700;
+}
+
+/* Accent column (calculated values) */
+.table-accent {
+  background: var(--table-accent-bg-strong);
+}
+.table-accent-cell {
+  background: var(--table-accent-bg);
+}
+
+/* --- 見出し --- */
+h1 { font-size: 1.5rem; margin: 0 0 12px 0; }
+h2 { font-size: 1.2rem; margin: 18px 0 8px 0; }
+
+/* --- アコーディオン風ボタン --- */
+.accordion-toggle {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* レスポンシブ調整 */
+@media (max-width: 640px) {
+  .container { padding: 0 12px; }
+  .card { padding: 12px; }
+  .table { font-size: 13px; }
+  h1 { font-size: 1.25rem; }
+}
