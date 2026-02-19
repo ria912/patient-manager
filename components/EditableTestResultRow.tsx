@@ -49,8 +49,9 @@ export default function EditableTestResultRow({ result, patientId }: Props) {
         <td style={{ ...tdStyle, textAlign: 'right' }}>{result.albumin}</td>
         <td style={{ ...tdStyle, textAlign: 'right' }}>{result.wbc}</td>
         <td style={{ ...tdStyle, textAlign: 'right' }}>{result.lymph_pct}</td>
-        <td style={{ ...tdStyle, textAlign: 'right' }}>{result.pre_albumin}</td>
+        <td style={{ ...tdStyle, textAlign: 'right' }}>{result.triglyceride ?? '-'}</td>
         <td style={{ ...tdStyle, textAlign: 'right' }}>{result.total_cholesterol}</td>
+        <td style={{ ...tdStyle, textAlign: 'right' }}>{result.pre_albumin}</td>
 
         <td className="table-accent-cell" style={{ ...tdStyle, textAlign: 'right', fontWeight: 'bold' }}>
           {result.tlc?.toLocaleString() ?? '-'}

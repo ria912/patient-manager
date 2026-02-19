@@ -12,6 +12,8 @@ interface Patient {
   name: string;
   age: number;
   memo: string;
+  height?: number | null;
+  weight?: number | null;
 }
 // Next.jsに対して、このページをキャッシュしないで、
 // 常に新しいデータを取り直すように指示する設定です。
@@ -54,16 +56,19 @@ export default async function Home() {
         // データがあれば、リスト表示（<ul>）
         <ul>
           {/* リスト内の各患者データに対して、<li>タグを生成して表示 */}
-          {patientsList.map((patient) => (
-            // keyはリスト表示で必須の識別子です。データベースのIDを使います。
-            <li key={patient.id} className="card" style={{ margin: '10px 0' }}>
-              {/* Linkタグで名前を囲み、クリックしたら詳細ページへ飛ぶようにします */}
-              <Link href={`/patients/${patient.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <h2 style={{ cursor: 'pointer', margin: 0 }}>{patient.name} 🔗</h2>
-              </Link>
-              <p style={{ marginTop: 8 }}>年齢: {patient.age}歳 / メモ: {patient.memo}</p>
-            </li>
-          ))}
+          {patientsList.map((patient) => {
+            const bmi = (patient.height && patient.weight) ? (patient.weight / ((patient.height / 100) ** 2)) : null;
+            return (
+              <li key={patient.id} className="card" style={{ margin: '10px 0' }}>
+                <Link href={`/patients/${patient.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <h2 style={{ cursor: 'pointer', margin: 0 }}>{patient.name} 🔗</h2>
+                </Link>
+                <p style={{ marginTop: 8 }}>
+                  年齢: {patient.age}歳 / メモ: {patient.memo} / BMI: {bmi ? bmi.toFixed(1) : '—'}
+                </p>
+              </li>
+            );
+          })}
         </ul>
       )}
     </main>

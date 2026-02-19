@@ -22,16 +22,18 @@ export default function PatientForm() {
     const form = event.currentTarget;
     const name = (form.elements.namedItem('name') as HTMLInputElement).value;
     const age = parseInt((form.elements.namedItem('age') as HTMLInputElement).value);
-    // diseaseの入力フィールドは削除しましたが、
-    // page.tsxの型定義に合わせた 'memo' フィールドを暫定的に空で挿入します。
-    // const disease = (form.elements.namedItem('disease') as HTMLInputElement).value; // 削除
+    // memo, height, weight を取得
+    const memo = (form.elements.namedItem('memo') as HTMLInputElement).value;
+    const heightValue = (form.elements.namedItem('height') as HTMLInputElement).value;
+    const weightValue = (form.elements.namedItem('weight') as HTMLInputElement).value;
+    const height = heightValue ? parseFloat(heightValue) : null; // cm
+    const weight = weightValue ? parseFloat(weightValue) : null; // kg
 
     // 1. Supabaseへのデータ挿入処理
     const { error } = await supabase
       .from('patients') // patientsテーブルを指定
       .insert([
-        // disease を削除し、memo を追加
-        { name: name, age: age, memo: '' },
+        { name: name, age: age, memo: memo, height: height, weight: weight },
       ]);
 
     setIsLoading(false);
@@ -76,13 +78,40 @@ export default function PatientForm() {
           />
         </div>
         
+        <div style={{ marginBottom: '15px', display: 'flex', gap: '10px' }}>
+          <div style={{ flex: 1 }}>
+            <label htmlFor="height" style={{ display: 'block', marginBottom: '5px' }}>身長 (cm)</label>
+            <input
+              type="number"
+              id="height"
+              name="height"
+              min="0"
+              step="0.1"
+              placeholder="例: 170"
+              style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
+            />
+          </div>
+
+          <div style={{ flex: 1 }}>
+            <label htmlFor="weight" style={{ display: 'block', marginBottom: '5px' }}>体重 (kg)</label>
+            <input
+              type="number"
+              id="weight"
+              name="weight"
+              min="0"
+              step="0.1"
+              placeholder="例: 60"
+              style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
+            />
+          </div>
+        </div>
+
         <div style={{ marginBottom: '15px' }}>
           <label htmlFor="memo" style={{ display: 'block', marginBottom: '5px' }}>メモ</label>
           <input
             type="text"
             id="memo"
             name="memo"
-            // requiredは外します。メモは必須ではないことが多いため
           />
         </div>
 

@@ -11,6 +11,8 @@ interface Patient {
   name: string;
   age: number | null;
   memo: string | null;
+  height?: number | null;
+  weight?: number | null;
 }
 
 // DBから取得する生のデータ型
@@ -152,8 +154,19 @@ export default async function PatientDetailPage({
   return (
     <main>
       <div className="card" style={{ marginBottom: 18 }}>
-        <h1>👤 {patient.name} さん（{patient.age}歳）</h1>
-        <p style={{ fontSize: '1.05em', marginTop: 8, marginBottom: 0 }}>メモ: {patient.memo || 'なし'}</p>
+        {(() => {
+          const bmi = (patient.height && patient.weight) ? (patient.weight / ((patient.height / 100) ** 2)) : null;
+          return (
+            <>
+              <h1>👤 {patient.name} さん（{patient.age}歳{bmi ? ` / BMI ${bmi.toFixed(1)}` : ''}）</h1>
+              <p style={{ fontSize: '1.05em', marginTop: 8, marginBottom: 0 }}>
+                身長: {patient.height !== null && patient.height !== undefined ? `${patient.height} cm` : '—'} / 体重: {patient.weight !== null && patient.weight !== undefined ? `${patient.weight} kg` : '—'} / BMI: {bmi ? bmi.toFixed(1) : '—'}
+                <br />
+                メモ: {patient.memo || 'なし'}
+              </p>
+            </>
+          );
+        })()}
       </div>
 
       <TestResultForm patientId={id} />
@@ -171,8 +184,9 @@ export default async function PatientDetailPage({
                 <th style={thStyle}>Alb</th>
                 <th style={thStyle}>WBC</th>
                 <th style={thStyle}>Lym%</th>
-                <th style={thStyle}>Pre-Alb</th>
+                <th style={thStyle}>TG</th>
                 <th style={thStyle}>T-Cho</th>
+                <th style={thStyle}>Pre-Alb</th>
                 {/* 計算項目 */}
                 <th className="table-accent" style={thStyle}>TLC (/μL)</th>
                 <th className="table-accent" style={thStyle}>PNI</th>
