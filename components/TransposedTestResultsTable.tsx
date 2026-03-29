@@ -56,6 +56,7 @@ const resultRows: ResultRow[] = [
 ];
 
 const thStyle = { border: '1px solid #ddd', padding: '8px', whiteSpace: 'nowrap' } as const;
+const rowHeaderStyle = { ...thStyle, width: '1%' } as const;
 const tdStyle = { border: '1px solid #ddd', padding: '8px' } as const;
 
 export default function TransposedTestResultsTable({ results, patientId }: Props) {
@@ -72,7 +73,7 @@ export default function TransposedTestResultsTable({ results, patientId }: Props
         <table className="table" style={{ marginTop: '10px', minWidth: '800px', fontSize: '14px' }}>
           <thead>
             <tr style={{ textAlign: 'center' }}>
-              <th style={thStyle}>検査項目</th>
+              <th style={rowHeaderStyle}>検査項目</th>
               {results.map((result) => (
                 <th key={result.id} style={thStyle}>
                   <button
@@ -97,7 +98,7 @@ export default function TransposedTestResultsTable({ results, patientId }: Props
           <tbody>
             {resultRows.map((row) => (
               <tr key={row.label}>
-                <th style={thStyle}>{row.label}</th>
+                <th style={rowHeaderStyle}>{row.label}</th>
                 {results.map((result) => {
                   const value =
                     row.key === 'tlc'
