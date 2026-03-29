@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase';
 import TestResultForm from '@/components/TestResultForm';
-import EditableTestResultRow from '@/components/EditableTestResultRow';
+import TransposedTestResultsTable from '@/components/TransposedTestResultsTable';
 
 // ----------------------------------------------------
 // 1. 型定義
@@ -175,36 +175,9 @@ export default async function PatientDetailPage({
       {resultsList.length === 0 ? (
         <p>検査結果はまだ登録されていません。</p>
       ) : (
-        <div style={{ overflowX: 'auto' }}>
-          <table className="table" style={{ marginTop: '10px', minWidth: '800px', fontSize: '14px' }}>
-            <thead>
-              <tr style={{ textAlign: 'center' }}>
-                <th style={thStyle}>検査日</th>
-                <th style={thStyle}>CRP</th>
-                <th style={thStyle}>Alb</th>
-                <th style={thStyle}>WBC</th>
-                <th style={thStyle}>Lym%</th>
-                <th style={thStyle}>TG</th>
-                <th style={thStyle}>T-Cho</th>
-                <th style={thStyle}>Pre-Alb</th>
-                {/* 計算項目 */}
-                <th className="table-accent" style={thStyle}>TLC (/μL)</th>
-                <th className="table-accent" style={thStyle}>PNI</th>
-                <th className="table-accent" style={thStyle}>CONUT</th>
-              </tr>
-            </thead>
-            <tbody>
-              {resultsList.map((result) => (
-                <EditableTestResultRow key={result.id} result={result} patientId={id} />
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <TransposedTestResultsTable results={resultsList} patientId={id} />
       )}
     </main>
   );
 }
 
-// スタイルの定義（コードを見やすくするため変数化）
-const thStyle = { border: '1px solid #ddd', padding: '8px', whiteSpace: 'nowrap' } as const;
-const tdStyle = { border: '1px solid #ddd', padding: '8px' } as const;
